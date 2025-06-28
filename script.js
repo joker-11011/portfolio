@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     welcomeMessage.className = 'welcome-message';
     welcomeMessage.innerHTML = `
 <pre class="ascii-art">
-/$$$$$$$$ /$$$$$$$$  /$$$$$$  /$$   /$$  /$$$$$$  /$$   /$$
+/$$$$$$$$ /$$$$$$$$   /$$$$$$  /$$   /$$  /$$$$$$  /$$   /$$
 | $$_____/| $$_____/ /$$__  $$| $$  | $$ /$$__  $$| $$$ | $$
 | $$      | $$      | $$  \__/| $$  | $$| $$  \ $$| $$$$| $$
 | $$$$$   | $$$$$   |  $$$$$$ | $$$$$$$$| $$$$$$$$| $$ $$ $$
