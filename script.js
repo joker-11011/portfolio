@@ -3,47 +3,83 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('output');
 
     const commands = {
-        help: 'Available commands: about, skills, education, experience, certificates, contact, whoami, tree, matrix, sudo, clear, ls',
+        help: `
+<span class="command-title">Available Commands:</span>
+  <span style="color: #00ff00;">about</span>         - Learn more about me
+  <span style="color: #00ff00;">skills</span>        - View my technical skills
+  <span style="color: #00ff00;">education</span>     - See my educational background
+  <span style="color: #00ff00;">experience</span>    - Check out my work experience
+  <span style="color: #00ff00;">certificates</span>  - View my certifications
+  <span style="color: #00ff00;">contact</span>       - Get in touch with me
+  <span style="color: #00ff00;">whoami</span>        - Display user information
+  <span style="color: #00ff00;">tree</span>          - Show the portfolio structure
+  <span style="color: #00ff00;">matrix</span>        - A little surprise
+  <span style="color: #00ff00;">clear</span>         - Clear the terminal screen
+`,
         about: 'Hello there! I\'m Eeshan.\nI hold a Bachelor degree in Electronics and Communications from the National Institute of Engineering.',
         skills: 'C, C++, Python, JavaScript, AWS Cloud, SQL, HTML, CSS, Shell Scripting, Cadence ( analog design )',
         education: `
-<h>* commit Bachelor Degree</h>
-| School: The National Institute of Engineering, Mysore
-| Date:   2024
-|
-|     - Electronics and Communication
-|     - CGPA: 7.41
-|
-<h>* commit Pre-University</h>
-| School: Sharada PU College, Mangaluru
-| Date:   2020
-|
-|     - Percentage: 89.16%
-|
-<h>* commit High School</h>
-| School: Sri Satya Sai Loka Seva Vidya Kendra, Alike, D.K
-| Date:   2018
-|
-|     - Percentage: 79%`,
-        experience: `
-<h>* commit Data Scientist</h>
-| Company: Knowledge Foundry Business Solutions
-| Date:   July 2024
-|
-<h>* commit Intern</h>
-| Company: Knowledge Foundry Business Solutions
-| Date:   March 2024
-|
-|     - Developed a computer vision solutions using OpenCV, enhancing image processing and analysis capabilities.
-|     - Utilized YOLO (You Only Look Once) for real-time object detection projects, improving detection accuracy and performance.
-|     - Worked on different AWS cloud services.
-|     - Gained hands-on experience in various stages of project development, from conceptualization to deployment.
-|
-<h>* commit IEEE Photonics Student Intern</h>
-| Company: National Institute of Technology, Suratkal
-| Date:   June 2022
-|
-|     - Focused on designing a ring resonator for cancer cell detection using optiFDTD software.`,
+<div class="command-title">* Bachelor Degree</div>
+  <span style="color: #aaa;">School:</span> The National Institute of Engineering, Mysore
+  <span style="color: #aaa;">Date:</span>   2024
+  <span style="color: #aaa;">Major:</span>  Electronics and Communication
+  <span style="color: #aaa;">CGPA:</span>   7.41
+
+<div class="command-title">* Pre-University</div>
+  <span style="color: #aaa;">School:</span> Sharada PU College, Mangaluru
+  <span style="color: #aaa;">Date:</span>   2020
+  <span style="color: #aaa;">Percentage:</span> 89.16%
+
+<div class="command-title">* High School</div>
+  <span style="color: #aaa;">School:</span> Sri Satya Sai Loka Seva Vidya Kendra, Alike, D.K
+  <span style="color: #aaa;">Date:</span>   2018
+  <span style="color: #aaa;">Percentage:</span> 79%`,
+        experience: () => {
+            const experienceData = [
+                {
+                    title: 'Data Scientist',
+                    company: 'Knowledge Foundry Business Solutions',
+                    date: 'July 2024',
+                    details: []
+                },
+                {
+                    title: 'Intern',
+                    company: 'Knowledge Foundry Business Solutions',
+                    date: 'March 2024',
+                    details: [
+                        'Developed a computer vision solutions using OpenCV, enhancing image processing and analysis capabilities.',
+                        'Utilized YOLO (You Only Look Once) for real-time object detection projects, improving detection accuracy and performance.',
+                        'Worked on different AWS cloud services.',
+                        'Gained hands-on experience in various stages of project development, from conceptualization to deployment.'
+                    ]
+                },
+                {
+                    title: 'IEEE Photonics Student Intern',
+                    company: 'National Institute of Technology, Suratkal',
+                    date: 'June 2022',
+                    details: [
+                        'Focused on designing a ring resonator for cancer cell detection using optiFDTD software.'
+                    ]
+                }
+            ];
+
+            let html = '<div class="git-graph">';
+            experienceData.forEach(item => {
+                html += `
+                    <div class="git-commit">
+                        <div class="commit-title">${item.title}</div>
+                        <div class="commit-meta">${item.company} | ${item.date}</div>
+                        ${item.details.length > 0 ? `
+                            <div class="commit-details">
+                                ${item.details.map(detail => `<div>- ${detail}</div>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            return html;
+        },
         certificates: `
 <a href="https://coursera.org/verify/DCZNHM8GD4G4" class="certificate-link">Supervised Machine Learning: Regression and Classification</a>
 <a href="https://www.credly.com/badges/2f332fda-1a77-4e9f-8701-ada189e1db0c/linked_in_profile" class="certificate-link">AWS Knowledge: Cloud Essentials</a>`,
@@ -71,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
 └── 🔧 system/
     ├── help
     ├── clear
-    └── ls
+    └── matrix
         `,
         matrix: () => startMatrixEffect(),
         sudo: () => {
@@ -83,8 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ];
             return responses[Math.floor(Math.random() * responses.length)];
         },
-        clear: '',
-        ls: 'about  skills  education  experience  certificates  contact  whoami  tree  matrix  sudo  clear  help'
+        clear: ''
     };
 
     let commandHistory = [];
@@ -146,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             const error = document.createElement('div');
             error.className = 'error-message';
-            error.textContent = 'Command not found. Type "help" for a list of available commands.';
+            error.textContent = `Command not found: ${command}. Type "help" for a list of available commands.`;
             commandOutput.appendChild(error);
         }
 
@@ -167,11 +202,14 @@ document.addEventListener('DOMContentLoaded', () => {
     welcomeMessage.className = 'welcome-message';
     welcomeMessage.innerHTML = `
 <pre class="ascii-art">
- _____ _____ _____ _   _   ___   _   _ 
-| ____|___ // ____|_| | |_|   | | \\ | |
-|  _|   |_ \\\\\___ \\| |_| |  _|  / |  \\| |
-| |___ ___) |___) |  _  | |  / /| |\\  |
-|_____|____/|____/|_| |_|_|/_/ |_| \\_|
+/$$$$$$$$ /$$$$$$$$  /$$$$$$  /$$   /$$  /$$$$$$  /$$   /$$
+| $$_____/| $$_____/ /$$__  $$| $$  | $$ /$$__  $$| $$$ | $$
+| $$      | $$      | $$  \__/| $$  | $$| $$  \ $$| $$$$| $$
+| $$$$$   | $$$$$   |  $$$$$$ | $$$$$$$$| $$$$$$$$| $$ $$ $$
+| $$__/   | $$__/    \____  $$| $$__  $$| $$__  $$| $$  $$$$
+| $$      | $$       /$$  \ $$| $$  | $$| $$  | $$| $$\  $$$
+| $$$$$$$$| $$$$$$$$|  $$$$$$/| $$  | $$| $$  | $$| $$ \  $$
+|________/|________/ \______/ |__/  |__/|__/  |__/|__/  \__/
 
    P O R T F O L I O   T E R M I N A L
    ════════════════════════════════════
@@ -190,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 span.style.opacity = '1';
                 span.style.animation = 'typing 0.5s steps(40, end)';
-            }, index * 200);
+            }, index * 100);
         });
     }
 
@@ -204,8 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const canvas = document.getElementById('matrix-canvas');
             if (canvas) {
                 const ctx = canvas.getContext('2d');
-                canvas.width = 600;
-                canvas.height = 200;
+                canvas.width = window.innerWidth * 0.8;
+                canvas.height = window.innerHeight * 0.5;
                 
                 const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
                 const fontSize = 14;
@@ -234,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     clearInterval(interval);
                     matrixContainer.remove();
-                }, 3000);
+                }, 5000);
             }
         }, 100);
         

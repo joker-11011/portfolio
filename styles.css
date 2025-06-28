@@ -5,20 +5,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    background: #1a1a1a;
     color: #e0e0e0;
     font-family: 'Fira Code', 'Consolas', monospace;
 }
 
 #terminal {
-    width: 90%;
-    max-width: 900px;
-    height: 80vh;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     padding: 20px;
     box-sizing: border-box;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    border-radius: 0;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -33,17 +32,17 @@ body {
     right: 0;
     height: 30px;
     background: #2d2d2d;
-    border-radius: 10px 10px 0 0;
+    border-radius: 0;
 }
 
 #terminal::after {
-    content: '●●●';
+    content: '● ● ●';
     position: absolute;
     top: 8px;
     left: 15px;
     color: #666;
     font-size: 12px;
-    letter-spacing: 2px;
+    letter-spacing: 5px;
 }
 
 #output {
@@ -53,7 +52,7 @@ body {
     padding: 20px;
     margin-top: 30px;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 #output::-webkit-scrollbar {
@@ -105,14 +104,13 @@ a:hover {
     text-decoration: underline;
 }
 
-h {
+h, .command-title {
     color: #ffd700;
     font-weight: bold;
     display: block;
     margin-top: 15px;
 }
 
-/* Command output styling */
 .command-output {
     margin: 5px 0;
     padding: 5px;
@@ -120,7 +118,6 @@ h {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* Welcome message styling */
 .welcome-message {
     color: #00ff00;
     font-size: 14px;
@@ -135,17 +132,10 @@ h {
     margin: 10px 0;
 }
 
-/* Error message styling */
 .error-message {
     color: #ff4444;
 }
 
-/* Success message styling */
-.success-message {
-    color: #00ff00;
-}
-
-/* Certificate links styling */
 .certificate-link {
     display: block;
     margin: 5px 0;
@@ -159,7 +149,6 @@ h {
     background: rgba(0, 255, 0, 0.2);
 }
 
-/* Typing effect animation */
 .typing-effect {
     display: block;
     margin: 2px 0;
@@ -170,7 +159,6 @@ h {
     to { width: 100%; }
 }
 
-/* Matrix effect styling */
 .matrix-container {
     margin: 10px 0;
     text-align: center;
@@ -180,4 +168,72 @@ h {
     border: 1px solid #00ff00;
     border-radius: 5px;
     background: #000;
+}
+
+/* Git Graph Styling */
+.git-graph {
+    font-family: 'Fira Code', 'Consolas', monospace;
+    line-height: 1.8;
+}
+
+.git-commit {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 15px;
+}
+
+.git-commit::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #ffd700;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.git-commit::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 15px;
+    width: 2px;
+    height: calc(100% - 5px);
+    background-color: #444;
+}
+
+.git-commit:last-child::after {
+    display: none;
+}
+
+.commit-title {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.commit-meta {
+    color: #aaa;
+    font-size: 0.9em;
+}
+
+.commit-details {
+    margin-top: 5px;
+    padding-left: 10px;
+    border-left: 2px solid #444;
+}
+
+@media (max-width: 600px) {
+    #terminal {
+        padding: 10px;
+    }
+
+    #output {
+        font-size: 12px;
+    }
+
+    #command-input {
+        font-size: 12px;
+    }
 }
