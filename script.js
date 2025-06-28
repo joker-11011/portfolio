@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopMatrix() {
         clearInterval(interval);
         document.body.removeChild(matrixContainer);
-        document.removeEventListener('keydown', handleEsc);
+        document.removeEventListener('keydown', handleKeyPress);
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
@@ -313,14 +313,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    function handleEsc(event) {
-        if (event.key === 'Escape') {
+    function handleKeyPress(event) {
+        if (event.key === 'Escape' || (event.ctrlKey && event.key === 'c')) {
             stopMatrix();
         }
     }
 
-    document.addEventListener('keydown', handleEsc);
+    document.addEventListener('keydown', handleKeyPress);
 
-    return 'Entering the Matrix... Press Esc to exit.';
+    return 'Entering the Matrix... Press Esc or Ctrl+C to exit.';
 }
 });

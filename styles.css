@@ -2,9 +2,6 @@ body {
     margin: 0;
     height: 100vh;
     width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background: #1a1a1a;
     color: #e0e0e0;
     font-family: 'Fira Code', 'Consolas', monospace;
@@ -161,7 +158,6 @@ h, .command-title {
 
 .matrix-container {
     margin: 10px 0;
-    text-align: center;
 }
 
 #matrix-canvas {
