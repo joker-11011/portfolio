@@ -234,48 +234,87 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Matrix effect for easter egg
     function startMatrixEffect() {
-        const matrixContainer = document.createElement('div');
-        matrixContainer.className = 'matrix-container';
-        matrixContainer.innerHTML = '<canvas id="matrix-canvas"></canvas>';
+    const matrixContainer = document.createElement('div');
+    matrixContainer.className = 'matrix-container';
+    matrixContainer.style.position = 'fixed';
+    matrixContainer.style.top = '0';
+    matrixContainer.style.left = '0';
+    matrixContainer.style.width = '100%';
+    matrixContainer.style.height = '100%';
+    matrixContainer.style.background = '#000';
+    matrixContainer.style.zIndex = '1000';
+    
+    const canvas = document.createElement('canvas');
+    canvas.id = 'matrix-canvas';
+    matrixContainer.appendChild(canvas);
+    document.body.appendChild(matrixContainer);
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        setTimeout(() => {
-            const canvas = document.getElementById('matrix-canvas');
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                canvas.width = window.innerWidth * 0.8;
-                canvas.height = window.innerHeight * 0.5;
-                
-                const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-                const fontSize = 14;
-                const columns = canvas.width / fontSize;
-                const drops = Array(Math.floor(columns)).fill(1);
-                
-                function draw() {
-                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    
-                    ctx.fillStyle = '#00ff00';
-                    ctx.font = fontSize + 'px monospace';
-                    
-                    for (let i = 0; i < drops.length; i++) {
-                        const text = chars[Math.floor(Math.random() * chars.length)];
-                        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                        
-                        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                            drops[i] = 0;
-                        }
-                        drops[i]++;
-                    }
-                }
-                
-                const interval = setInterval(draw, 50);
-                setTimeout(() => {
-                    clearInterval(interval);
-                    matrixContainer.remove();
-                }, 5000);
+        ctx.fillStyle = '#00ff00';
+        ctx.font = fontSize + 'px monospace';
+        
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
             }
-        }, 100);
-        
-        return matrixContainer.outerHTML + '<br>Welcome to the Matrix... 🕶️<br>Follow the white rabbit.';
+            drops[i]++;
+        }
     }
+
+    const interval = setInterval(draw, 50);
+
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {
+            setTimeout(() => {
+                clearInterval(interval);
+                document.body.removeChild(matrixContainer);
+                
+                const popup = document.createElement('div');
+                popup.style.position = 'fixed';
+                popup.style.top = '50%';
+                popup.style.left = '50%';
+                popup.style.transform = 'translate(-50%, -50%)';
+                popup.style.background = '#1a1a1a';
+                popup.style.color = '#ff4444';
+                popup.style.padding = '20px';
+                popup.style.border = '2px solid #ff4444';
+                popup.style.borderRadius = '10px';
+                popup.style.zIndex = '1001';
+                popup.style.textAlign = 'center';
+                popup.innerHTML = `
+                    <h2>BOO!</h2>
+                    <p>Your IP is: ${data.ip}</p>
+                    <button id="close-popup">Close</button>
+                `;
+                document.body.appendChild(popup);
+
+                document.getElementById('close-popup').addEventListener('click', () => {
+                    document.body.removeChild(popup);
+                });
+            }, 3000);
+        })
+        .catch(error => {
+            console.error('Error fetching IP:', error);
+            clearInterval(interval);
+            document.body.removeChild(matrixContainer);
+        });
+
+    return 'Entering the Matrix...';
+}
 });
