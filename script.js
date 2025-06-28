@@ -278,13 +278,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const interval = setInterval(draw, 50);
 
-    fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            setTimeout(() => {
-                clearInterval(interval);
-                document.body.removeChild(matrixContainer);
-                
+    function stopMatrix() {
+        clearInterval(interval);
+        document.body.removeChild(matrixContainer);
+        document.removeEventListener('keydown', handleEsc);
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
                 const popup = document.createElement('div');
                 popup.style.position = 'fixed';
                 popup.style.top = '50%';
@@ -307,14 +307,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('close-popup').addEventListener('click', () => {
                     document.body.removeChild(popup);
                 });
-            }, 3000);
-        })
-        .catch(error => {
-            console.error('Error fetching IP:', error);
-            clearInterval(interval);
-            document.body.removeChild(matrixContainer);
-        });
+            })
+            .catch(error => {
+                console.error('Error fetching IP:', error);
+            });
+    }
 
-    return 'Entering the Matrix...';
+    function handleEsc(event) {
+        if (event.key === 'Escape') {
+            stopMatrix();
+        }
+    }
+
+    document.addEventListener('keydown', handleEsc);
+
+    return 'Entering the Matrix... Press Esc to exit.';
 }
 });
