@@ -211,11 +211,11 @@ document.addEventListener('DOMContentLoaded', () => {
 | $$$$$$$$| $$$$$$$$|  $$$$$$/| $$  | $$| $$  | $$| $$ /  $$
 |________/|________/ /______/ |__/  |__/|__/  |__/|__/  /__/
 
-   P O R T F O L I O   T E R M I N A L
-   ════════════════════════════════════
+P O R T F O L I O   T E R M I N A L
+════════════════════════════════════
 </pre>
-        Welcome, Guest! You've connected to Eeshan's system.
-        Type 'help' to see available commands or 'whoami' to learn more.
+Welcome, Guest! You've connected to Eeshan's system.
+Type 'help' to see available commands or 'whoami' to learn more.
     `;
     output.appendChild(welcomeMessage);
     output.scrollTop = output.scrollHeight;
