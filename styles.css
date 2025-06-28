@@ -130,6 +130,7 @@ h, .command-title {
     font-size: 12px;
     text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
     margin: 10px 0;
+    align-self: start;
 }
 
 .error-message {
